@@ -36,18 +36,18 @@ class Graph:
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        q = Queue
+        qq = Queue()
         # add starting_vertex to Queue, note enqueue adds to the tail
-        q.enqueue(starting_vertex)
+        qq.enqueue(starting_vertex)
         # print({starting_vertex})
         # keep track of visited nodes
         visited = set()
 
         # repeat until queue is empty
-        while q.size() > 0:
+        while qq.size() > 0:
 
             # dequeue first vert(remember dequeue pops the head)
-            v = q.dequeue()
+            v = qq.dequeue()
 
             # if its not visited
             if v not in visited:
@@ -56,7 +56,7 @@ class Graph:
                 visited.add(v)
 
                 for next_vert in self.get_neighbors(v):
-                    q.enqueue(next_vert)
+                    qq.enqueue(next_vert)
                     # print({next_vert})
 
 
@@ -132,17 +132,18 @@ class Graph:
         while q.size() > 0:
             # Dequeue the first PATH
             cur_path = q.dequeue()
+            print('CURRENT_PATH_XXXXXXX',cur_path)
             # Grab the last vertex from the PATH
             cur_path_last_vertex = cur_path[-1]
+            # CHECK IF IT'S THE TARGET
+            if cur_path_last_vertex == destination_vertex:
+                # IF SO, RETURN PATH
+                return cur_path
 
             # If that vertex has not been visited...
             if cur_path_last_vertex not in visited:
-                # CHECK IF IT'S THE TARGET
-                if cur_path_last_vertex == destination_vertex:
-                    # IF SO, RETURN PATH
-                    return cur_path
                     
-            else:
+           
                 # Mark it as visited...
                 visited.add(cur_path_last_vertex)
 
