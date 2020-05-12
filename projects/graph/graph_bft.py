@@ -38,7 +38,7 @@ class Graph:
 		self.vertices = {}
 
 	def add_vertex(self, vertex_id):
-		self.vertices[vertex_id] = set()  # set of edges
+		self.vertices[vertex_id] = set()
 
 	def add_edge(self, v1, v2):
 		"""Add edge from v1 to v2."""
