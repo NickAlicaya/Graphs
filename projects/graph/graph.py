@@ -77,23 +77,7 @@ class Graph:
             if child not in visited:
                 self.dft_recursive(child, visited)    
 
-        # s.push(starting_vertex)
-
-        # visited = set()
-
-        # while s.size() > 0:
-        #     v = s.pop()
-
-        #     if v not in visited:
-        #         print(v)
-        #         # mark vertex as visited
-        #         visited.add(v)
-
-        #         for child in self.get_neighbors(v):
-        #             s.push(child)
-       
-      
-
+  
     def dft_recursive(self, starting_vertex, visited = None):
         """
         Print each vertex in depth-first order
@@ -170,7 +154,7 @@ class Graph:
 
         while s.size() > 0:
             path = s.pop()
-
+            # if last item in list of path not in visited
             if path[-1] not in visited:
                 if path[-1] == destination_vertex:
                     return path
@@ -180,7 +164,9 @@ class Graph:
             for child in self.get_neighbors(path[-1]):
                 # makes a copy of path
                 new_path = list(path)
+                # adds child to list
                 new_path.append(child)
+                # add to stack to keep while loop going
                 s.push(new_path)        
 
     def dfs_recursive(self, starting_vertex, destination_vertex, visited = None, path = None):
