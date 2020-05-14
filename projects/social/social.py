@@ -1,6 +1,6 @@
 import random 
 from utils import Queue, Stack, Graph
-b=Queue()
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -31,40 +31,22 @@ class SocialGraph:
         self.users[self.last_id] = User(name)
         self.friendships[self.last_id] = set()
 
-    # def populate_graph(self, num_users, avg_friendships):
-    #     """
-    #     Takes a number of users and an average number of friendships
-    #     as arguments
-
-    #     Creates that number of users and a randomly distributed friendships
-    #     between those users.
-
-    #     The number of users must be greater than the average number of friendships.
-    #     """
-    #     # Reset graph
-    #     self.last_id = 0
-    #     self.users = {}
-    #     self.friendships = {}
-    #     # !!!! IMPLEMENT ME
-
-    #     # Add users
-
-    #     # Create friendships
-
+  
     def populate_graph(self, num_users, avg_friendships):
-     # Reset graph
+        # Reset graph, last_id updates and increments by 1 everytime a user is generated
         self.last_id = 0
         self.users = {}
         self.friendships = {}
         # Add users
         for i in range(0, num_users):
             self.add_user(f"User {i}")
-        # Create Frienships
-        # Generate all possible friendship combinations
+        # Create Friendships
+        # Generate all possible friendship combinations and save inside a list(possible_friendships)
         possible_friendships = []
         # Avoid duplicates by ensuring the first number is smaller than the second
         for user_id in self.users:
             for friend_id in range(user_id + 1, self.last_id + 1):
+                # append tuple to possible_friendships
                 possible_friendships.append((user_id, friend_id))
         # Shuffle the possible friendships
         random.shuffle(possible_friendships)
@@ -84,8 +66,31 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        # start a Queue for a breadthfirst approach to check all connections
+        qq = Queue()
+        visited = {} # a dictionary not a set
+        # empty list with our user as the starting point
+        path = [user_id]
+        
+        # load the path to back of the Queue
+        qq.enqueue(path)
+        
+        while qq.size() > 0:
+            # set the path removed from the FRONT of the Queue as the path
+            path = qq.dequeue()
+            # set  last item in the path which is a list as cur_id
+            cur_id = path[-1]
+
+            if cur_id not in visited:
+                # set frienships as the value at friendships indexed at cur_id
+                friendships = self.friendships[cur_id]
+                visited[cur_id] = path
+                
+                for friend_id in friendships:
+                    new_path = list(path) #copy of path
+                    new_path.append(friend_id)
+                    # add to back of queue and continues the while loop
+                    qq.enqueue(new_path)
 
              
         return visited
@@ -93,7 +98,7 @@ class SocialGraph:
 
 if __name__ == '__main__':
     sg = SocialGraph()
-    sg.populate_graph(10, 2)
-    print(sg.friendships)
+    sg.populate_graph(5, 3)
+    print('friendships:',sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print('connections:',connections)
